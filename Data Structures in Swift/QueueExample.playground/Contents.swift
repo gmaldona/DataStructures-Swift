@@ -37,13 +37,4 @@ struct Queue<T> {
     }
 }
 
-var data = Queue<Int>()
-data.push(element: 4)
-data.push(element: 3)
-data.push(element: 24)
-data.peak()
-
-print(data.pop())
-print(data.pop())
-data.peak()
 

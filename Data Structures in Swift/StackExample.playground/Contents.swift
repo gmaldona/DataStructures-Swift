@@ -1,7 +1,3 @@
-import UIKit
-
-var str = "Hello, playground"
-
 struct Stack<T> {
     
     private var list: [T]

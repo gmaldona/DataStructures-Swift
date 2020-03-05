@@ -1,2 +1,2 @@
-# DataStructures
-Data Structures in Swift
+# Data Structures Written in Swift
+

@@ -13,6 +13,19 @@ struct LinkedList<T> {
         nodeBefore.setNext(next: node)
     }
     
+    mutating public func addTo(index: Int, data: T) {
+        let node = Node(data: data)
+        if index == 0 {
+            node.setNext(next: nodes[0])
+            head = node
+        }
+        else {
+            node.setNext(next: nodes[index + 1])
+            nodes[index -  1].setNext(next: node)
+        }
+        nodes.insert(contentsOf: nodes, at: index)
+    }
+    
     mutating public func addToStart(data: T) {
         let node = Node(data: data)
         if !self.isEmpty() { node.setNext(next: head!) }
@@ -67,17 +80,3 @@ class Node<T> {
     }
 }
 
-var numberSet = LinkedList(dataType: Int())
-numberSet.addToStart(data: 12)
-numberSet.addToEnd(data: 23)
-numberSet.addToEnd(data: 31)
-
-numberSet.getHead().getData()
-numberSet.getHead().getNext().getData()
-numberSet.getHead().getNext().getNext().getData()
-numberSet.addTo(nodeBefore: numberSet.getHead().getNext(), data: 2)
-
-numberSet.getHead().getData()
-numberSet.getHead().getNext().getData()
-numberSet.getHead().getNext().getNext().getData()
-numberSet.getHead().getNext().getNext().getNext().getData()

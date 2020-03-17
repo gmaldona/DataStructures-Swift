@@ -1,3 +1,4 @@
+//To search through the linkedList the time complexity is O(n)
 struct LinkedList<T> {
     
     private var nodes: [Node<T>]

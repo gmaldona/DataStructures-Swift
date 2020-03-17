@@ -1,3 +1,5 @@
+import Foundation
+
 struct BinaryTree {
     
     private var root: Node?
@@ -97,18 +99,15 @@ class Node {
     }
 }
 
-var tree = BinaryTree()
-tree.addNode(data: 2)
-tree.addNode(data: 1)
-tree.addNode(data: 7)
-tree.addNode(data: 6)
-tree.addNode(data: 9)
- 
-tree.getRoot().getData()
-tree.getRoot().getLeft()!.getData()
-tree.getRoot().getRight()!.getData()
-tree.getRoot().getRight()!.getLeft()?.getData()
-tree.getRoot().getRight()!.getRight()?.getData()
+var dataTree = BinaryTree()
+let data = [
+    2, 32, 42, 6, 64, 75, 876, 64, 532, 743, 76533, 763, 234, 45345, 45, 23453, 345
+]
 
-tree.searchFor(data: 9)
+for number in data {
+    dataTree.addNode(data: number)
+}
+
+dataTree.searchFor(data: 45345)
+dataTree.getRoot().getRight()!.getLeft()?.getData()
 

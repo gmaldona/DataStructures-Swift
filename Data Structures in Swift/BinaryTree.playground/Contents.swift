@@ -111,3 +111,4 @@ tree.getRoot().getRight()!.getLeft()?.getData()
 tree.getRoot().getRight()!.getRight()?.getData()
 
 tree.searchFor(data: 9)
+

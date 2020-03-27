@@ -1,29 +1,21 @@
-func sort(array: [Int]) -> [Int] {
+func BubbleSort(dataSet: [Int]) -> [Int] {
+    var data = dataSet
     
-    var sortedArray = array
+    var index = data.count - 1
     
-    for i in 0...array.count - 2 {
-        
-        let arrayCheck = sortedArray
-        
-        if sortedArray[i] > sortedArray[i + 1] {
-            let temp = sortedArray[i + 1]
-            sortedArray[i + 1] = sortedArray[i]
-            sortedArray[i] = temp
+    while index >= 0 {
+        for i in 0 ... data.count - 2 {
+            if data[i] > data[i + 1] {
+                let temp = data[i + 1]
+                data[i + 1] = data[i]
+                data[i] = temp
+            }
         }
-        
+    index = index - 1
     }
     
-    if (sortedArray.elementsEqual(arrayCheck)) {
-        return sortedArray
-    }
-    else {
-        sort(array: sortedArray)
-    }
-
-    return [0]
-    
+    return data
 }
 
 let A = [1, 54, 75, 3, 8, 23, 87, 98, 5, 0, 21, 53]
-print(sort(array: A))
+BubbleSort(dataSet: A)

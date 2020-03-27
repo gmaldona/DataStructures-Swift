@@ -1,3 +1,5 @@
+//Time Complexity: O(n^2)
+
 func BubbleSort(dataSet: [Int]) -> [Int] {
     var data = dataSet
     

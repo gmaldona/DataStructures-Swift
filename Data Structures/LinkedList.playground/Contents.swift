@@ -1,83 +1,130 @@
 //To search through the linkedList the time complexity is O(n)
-struct LinkedList<T> {
+class LinkedList
+{
     
-    private var nodes: [Node<T>]
-    private var head: Node<T>?
+    //The start of the linked list
+    var head: Node?
     
-    init(dataType: T) {
-        nodes = []
+    //This method adds a node to the list
+    func add(value: Int)
+    {
+        if isEmpty() { head = Node(data: value) }
+        else { head?.add(value: value) }
     }
     
-    mutating public func addTo(nodeBefore: Node<T>, data: T) {
-        let node = Node(data: data)
-        node.setNext(next: nodeBefore.getNext())
-        nodeBefore.setNext(next: node)
-    }
-    
-    mutating public func addTo(index: Int, data: T) {
-        let node = Node(data: data)
-        if index == 0 {
-            node.setNext(next: nodes[0])
-            head = node
+    //This method adds a node to the specific index
+    func insertAt(index: Int, value: Int)
+    {
+        //If the list is empty, it places a new node at the beginning
+        if isEmpty() { head = Node(data: value) }
+        //If the list is not empty and the index is at the start
+        else if index == 0 && !isEmpty()
+        {
+            let tempNode = head
+            head = Node(data: value)
+            head?.next = tempNode
         }
-        else {
-            node.setNext(next: nodes[index + 1])
-            nodes[index -  1].setNext(next: node)
+        //index any where else in the list
+        else
+        {
+            //Checks to see if the index is in the list
+            if index <= size() { head?.insertAt(index: index, value: value) }
+            //If the index is not in the list
+            else { print("Invalid Index") }
         }
-        nodes.insert(contentsOf: nodes, at: index)
     }
     
-    mutating public func addToStart(data: T) {
-        let node = Node(data: data)
-        if !self.isEmpty() { node.setNext(next: head!) }
-        head = node
-        nodes.append(node)
+    //Checks to see if the value is contained in the list
+    func contains(value: Int) -> Bool { return head?.contains(value: value) ?? false }
+    
+    //Turns the linked list into a string
+    func toString() -> String
+    {
+        //If the list is empty then return nothing
+        if isEmpty() { return "" }
+        //If the list is not empty turn the list into a string
+        else { return head!.toString() }
     }
     
-    mutating public func addToEnd(data: T) {
-        let node = Node(data: data)
-        if self.isEmpty() == false { nodes[nodes.count - 1].setNext(next: node) }
-        else { head = node }
-        nodes.append(node)
-    }
+    //Checks to see if the list is empty
+    func isEmpty() -> Bool { return head == nil ? true : false }
     
-    public func getHead() -> Node<T> {
-        return self.head!
-    }
+    //Returns the size of the array
+    func size() -> Int { return head?.size() ?? 0 }
     
-    public func get() -> [Node<T>] {
-        return nodes
-    }
-    
-    public func size() -> Int {
-        return nodes.count
-    }
-    
-    public func isEmpty () -> Bool {
-        if self.size() == 0 {
-            return true
-        }
-        return false
-    }
 }
 
-class Node<T> {
-    
-    private var data: T
-    private var next: Node?
-    
-    init(data: T) {
-        self.data = data
-    }
-    
-    public func getData() -> T {
-        return data
-    }
-    public func setNext(next: Node) {
-        self.next = next
-    }
-    public func getNext() -> Node<T> {
-        return next!
-    }
-}
+//Nodes for the linked list
+class Node
+{
 
+    var next: Node?
+    var data: Int
+    
+    //Initializes the data for the node
+    init(data: Int) { self.data = data }
+    
+    //Method that returns if the next node is empty
+    func nextIsEmpty() -> Bool { return self.next == nil ? true : false }
+    
+    //Method that adds to the list
+    func add(value: Int)
+    {
+        //If the next node is nil then add the new node to next
+        if nextIsEmpty() { self.next = Node(data: value) }
+        //Else then recursively call the add method until the next node is nil
+        else { self.next?.add(value: value) }
+    }
+    
+    //Method that returns if a value is contained in the list
+    func contains(value: Int) -> Bool
+    {
+        //If the data for the current node is equal to the value then return true
+        if (self.data == value) { return true }
+        //Else then if the next node is nil then return nil, if a next node exist then call the contains method on the next node
+        else { return nextIsEmpty() ? false : (self.next?.contains(value: value))! }
+    }
+    
+    //This method inserts a node at a specific index
+    //This method works by counting down from the initial index until the index is 0
+    //When the index is 0, then that is the value the node should be inserted into
+    func insertAt(index: Int, value: Int)
+    {
+        //The index before the desired index
+        let INDEX_BEFORE = 1
+        //If the index is right before the desired index then swap
+        if (index == INDEX_BEFORE)
+        {
+            //Swap if next is not empty
+            if !nextIsEmpty()
+            {
+                let tempNode = self.next
+                self.next = Node(data: value)
+                self.next?.next = tempNode
+            }
+            //If next is empty then create a node for next
+            else { self.next = Node(data: value) }
+        }
+        //If the index is not right before then call the insertAt method on the next node with a value of - 1
+        else { self.next?.insertAt(index: index - 1, value: value) }
+    }
+    
+    //Method that turns the linked list into a string
+    func toString() -> String
+    {
+        //If the next node is empty then just return the data associated with the node
+        if nextIsEmpty() { return "[\(self.data)]" }
+        //Else then return the data associated with the node plus the dat associated with the next node by recursion
+        else { return "[\(self.data)]" + self.next!.toString() }
+    }
+    
+    //Returns the size of the linked list
+    func size() -> Int
+    {
+        //If the next node is empty then return the count for the the node
+        if nextIsEmpty() { return 1 }
+        //If the next is not empty then return the count for this node and the next node recursively
+        else { return 1 + (self.next?.size())! }
+    }
+    
+}

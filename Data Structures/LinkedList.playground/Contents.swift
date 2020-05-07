@@ -8,7 +8,9 @@ class LinkedList
     //This method adds a node to the list
     func add(value: Int)
     {
+        //If the list is empty then make a new node for the head
         if isEmpty() { head = Node(data: value) }
+        //If the list is not empty then recursively call the ad method on the head to find the next nil index
         else { head?.add(value: value) }
     }
     
@@ -34,6 +36,9 @@ class LinkedList
         }
     }
     
+    //Finds the index of a specific value of a node
+    func findIndex(value: Int) -> Int { return (head?.findIndex(index: 0, value: value))! }
+    
     //Checks to see if the value is contained in the list
     func contains(value: Int) -> Bool { return head?.contains(value: value) ?? false }
     
@@ -52,6 +57,11 @@ class LinkedList
     //Returns the size of the array
     func size() -> Int { return head?.size() ?? 0 }
     
+    //Removes a node at a specific index
+    func remove(index: Int) { head?.remove(index: index) }
+    
+    //Removes a node of a specific value
+    func remove(value: Int) { head?.remove(value: value) }
 }
 
 //Nodes for the linked list
@@ -109,6 +119,39 @@ class Node
         else { self.next?.insertAt(index: index - 1, value: value) }
     }
     
+    //Method that removes a node at a specific index
+    func remove(index: Int)
+    {
+        //The method checks when the index is one before the initial index
+        let INDEX_BEFORE = 1
+        //If the node is right before the specific index then change the reference to the next node
+        if (index == INDEX_BEFORE) {
+            //If there is a node after the next node then change the reference to the next next node
+            if self.next?.next != nil { self.next = self.next?.next }
+            //If there is no node after the next node then change the reference of the next node to nil
+            else { self.next = nil }
+        }
+        //If the index is not one before the specific index then call the method recursively to find the index
+        else { self.next?.remove(index: index - 1) }
+    }
+    
+    //Method that removes a node of a specific value
+    func remove(value: Int)
+    {
+        //Checks to see if the value is in the list and then finds the index to remove the node
+        if contains(value: value) { remove(index: findIndex(index: 0, value: value)) }
+    }
+    
+    //Method that finds the index of a specific value
+    func findIndex(index: Int, value: Int) -> Int
+    {
+        //Checks if the node is the last node in the list and if it is then if the value is not the value that is being checked for
+        //Then it does not exist in the list
+        if nextIsEmpty() { return self.data == value ? index : -1 }
+        //If there are more nodes in the list then the method is called recursively to check the next node
+        else { return self.data == value ? index : (self.next?.findIndex(index: index + 1, value: value))! }
+    }
+    
     //Method that turns the linked list into a string
     func toString() -> String
     {
@@ -128,3 +171,5 @@ class Node
     }
     
 }
+
+
